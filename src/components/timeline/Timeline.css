@@ -13,8 +13,8 @@
     top: 0;
     background-color:white;
     z-index: 100;
-    border: 1px solid var(--twitter-background);
-    padding: 15px 20px;
+    border-bottom: 1px solid var(--twitter-background);
+    padding: 5px 20px;
 }
 
 .timeline__header > h2{
