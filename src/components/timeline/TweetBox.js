@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import "./TweetBox.css";
 import { Avatar, Button } from "@mui/material";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import db from "../../firebase.js";
 
 function TweetBox() {
@@ -25,7 +30,12 @@ function TweetBox() {
       text: tweetMessage,
       userName: userName,
       verified: verified,
+      timestamp: serverTimestamp(),
+    }).then(() => {
+      window.location.reload();
     });
+    setTweetMessage("");
+    setTweetImage("");
   };
 
   return (
@@ -34,12 +44,14 @@ function TweetBox() {
         <div className="tweetBox__input">
           <Avatar src={avatar}></Avatar>
           <input
+            value={tweetMessage}
             placeholder="いまどうしてる？"
             type="text"
             onChange={(e) => setTweetMessage(e.target.value)}
           ></input>
         </div>
         <input
+          value={tweetImage}
           className="tweetBox__imageInput"
           placeholder="画像のURLを入力してください"
           onChange={(e) => setTweetImage(e.target.value)}
