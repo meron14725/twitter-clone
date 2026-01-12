@@ -31,8 +31,6 @@ function TweetBox() {
       userName: userName,
       verified: verified,
       timestamp: serverTimestamp(),
-    }).then(() => {
-      window.location.reload();
     });
     setTweetMessage("");
     setTweetImage("");
