@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Timeline.css";
 import TweetBox from "./TweetBox";
 import Post from "./Post";
@@ -11,6 +11,7 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Timeline() {
   const [posts, setPosts] = useState([]);
@@ -26,7 +27,9 @@ function Timeline() {
         }))
       );
     });
-  });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="timeline">
@@ -47,18 +50,27 @@ function Timeline() {
         avatar="http://shincode.info/wp-content/uploads/2021/12/icon.png"
         image="https://picsum.photos/1920/1080"
       />
-
-      {posts.map((post) => (
-        <Post
-          key={post.id} // 各リストアイテムには一意のkeyが必要です
-          displayName={post.displayName}
-          userName={post.userName}
-          verified={post.verified}
-          text={post.text}
-          avatar={post.avatar}
-          image={post.image}
-        />
-      ))}
+      <AnimatePresence>
+        {posts.map((post) => (
+          <motion.div
+            key={post.id}
+            layout
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Post
+              displayName={post.displayName}
+              userName={post.userName}
+              verified={post.verified}
+              text={post.text}
+              avatar={post.avatar}
+              image={post.image}
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
 
       {/* Post */}
       {/* Post */}
